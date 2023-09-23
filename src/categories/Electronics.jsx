@@ -1,0 +1,81 @@
+import { useGlobalContext } from '../components/Provider'
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import {MdOutlineBookmarkAdded} from 'react-icons/md'
+import React,{useState, useEffect} from 'react'
+import { createApi } from '../components/Provider';
+import { Alert } from 'react-bootstrap'
+
+
+export const Electronics = () => {
+    const {searchButtonClick,homeClick,cart,setCart,selectProduct}= useGlobalContext()
+    const [electronics, setElectronics] = useState([])
+    const [visibleAlert, setAlertVisible] = useState(false)
+    const [productId, setProductId] =useState()
+
+
+    const handleCartSelection = (item)=>{
+        setCart([...cart,item])
+        setProductId(item.id)
+        setAlertVisible(true)
+            setTimeout(() => { 
+                setAlertVisible(false)
+            }, 2000);
+        }
+
+
+
+
+    useEffect(()=>{
+        const fetchApi = async ()=>{
+    
+            try {
+                const response= await createApi.get("/products/category/electronics")
+              
+                setElectronics(response.data)
+            } catch (error) {
+                //console.log(error)
+            }
+        }      
+    fetchApi()
+    },[])
+
+
+
+      return (
+
+        <main className='container'>
+        
+        <div className='row'>
+    {electronics.map((productData)=>{
+        return(
+    
+            <div className='col' key={productData.id}>
+               {productData.id==productId && <Alert show={visibleAlert} variant="success"  style={{width:'10rem',position:'absolute',padding:1}}>
+    Added to cart</Alert>}
+                <div className='section'>
+               
+                <img src={productData.image} alt='product' onClick={()=>selectProduct(productData)}/>
+                <div className='price-cart'>
+                <p style={{fontWeight:'700'}}>${productData.price}</p>
+                <button className='bookmarkButton'><MdOutlineBookmarkAdded size={30} color='#034f84' onClick={()=>handleCartSelection(productData)}/></button>
+                </div>
+                
+                </div>
+                <div style={{marginBottom:'2rem'}}>{productData.title}</div>
+                
+            </div>
+        )
+     
+    })}
+    
+    
+    
+    
+    
+        </div>
+    
+        
+        
+        </main>
+      )
+}

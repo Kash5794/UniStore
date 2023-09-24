@@ -5,13 +5,14 @@ import { Alert } from 'react-bootstrap'
 //id, title, price,image,rating
 const Section = () => {
 
-const {searchButtonClick,homeClick,cart,setCart,selectProduct}= useGlobalContext()
+const {searchButtonClick,homeClick,cart,setCart,selectProduct,product}= useGlobalContext()
 const [visibleAlert, setAlertVisible] = useState(false)
 const [productId, setProductId] =useState()
 
-let allProduct=JSON.parse(localStorage.getItem('product'))
+//let allProduct=JSON.parse(localStorage.getItem('product'))
 let filterProduct=JSON.parse(localStorage.getItem('filter'))
 
+let allProduct=product
 const handleCartSelection = (item)=>{
 setCart([...cart,item])
 setProductId(item.id)

@@ -3,9 +3,16 @@ import { useGlobalContext } from './Provider'
 import {IoMdRemoveCircle} from 'react-icons/io'
 import card from '../images/card.jpg'
 const Cart = () => {
-    
-const cart =JSON.parse(localStorage.getItem('cart'))
-console.log(cart)
+
+let {cart} = useGlobalContext()
+let storageCart 
+useEffect(()=>{
+storageCart=JSON.parse(localStorage.getItem('cart'))
+},[cart])
+
+if(storageCart){
+    cart =storageCart
+}
   return (
     <main className='container'>
         <p style={{fontSize:'10px'}}>Sign-in to your account to sync your transaction across all your devices</p>

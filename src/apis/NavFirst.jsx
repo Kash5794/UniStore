@@ -12,10 +12,18 @@ export const NavFirst = () => {
 
   const [visible, setVisible] =useState()
   const [error, setError] = useState("")
-  const { value } = useGlobalContext()
+  let { value,cart } = useGlobalContext()
   const { currentUser, logout } = value
 
-const cart =JSON.parse(localStorage.getItem('cart'))
+
+let storageCart
+useEffect(()=>{
+  storageCart =JSON.parse(localStorage.getItem('cart'))
+},[cart])
+
+if (storageCart){
+  cart=storageCart
+}
   const handleLogout = async () => {
     setError('')
     try {
@@ -90,7 +98,7 @@ const cart =JSON.parse(localStorage.getItem('cart'))
   
 
 }
-console.log(visible)
+
   return (
 
     <div className='parent-container'>
